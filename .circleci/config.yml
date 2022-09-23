@@ -13,7 +13,7 @@ jobs:
           keys:
             - v1-dependency-{{ checksum "package-lock.json" }}
             - v1-dependency-
-      # - run: docker run --name=simple-oauth -e MYSQL_ROOT_PASSWORD=${DATABASE} -e MYSQL_DATABASE=simple-oauth -p 6603:3306 -d mysql:8.0
+      - run: docker run --name=simple-oauth -e MYSQL_ROOT_PASSWORD=${PASSWORD} -e MYSQL_DATABASE=${DATABASE} -p 6603:3306 -d mysql:8.0
       - node/install:
           node-version: '16.15'
       - run: node --version
@@ -24,15 +24,15 @@ jobs:
             - ./node_modules
       - run:
           command: |
-            # touch .env
-            # echo "DATABASE=${DATABASE}" >> .env
-            # echo "DATABASE_PORT=${DATABASE_PORT}" >> .env
-            # echo "DATABASE_USER=${DATABASE_USER}" >> .env
-            # echo "DIALECT=${DIALECT}" >> .env
-            # echo "HOST=${HOST}" >> .env
-            # echo "MAX=${MAX}" >> .env
-            # echo "MIN=${MIN}" >> .env
-            # echo "PASSWORD=${PASSWORD}" >> .env
-            # cat .env
-            # npx sequelize-cli db:migrate
+            touch .env
+            echo "DATABASE=${DATABASE}" >> .env
+            echo "DATABASE_PORT=${DATABASE_PORT}" >> .env
+            echo "DATABASE_USER=${DATABASE_USER}" >> .env
+            echo "DIALECT=${DIALECT}" >> .env
+            echo "HOST=${HOST}" >> .env
+            echo "MAX=${MAX}" >> .env
+            echo "MIN=${MIN}" >> .env
+            echo "PASSWORD=${PASSWORD}" >> .env
+            cat .env
+            npx sequelize-cli db:migrate
             npm run test
