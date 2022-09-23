@@ -13,11 +13,11 @@ module.exports = {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        code_change: {
+        codeChallenge: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        code_change_method: {
+        codeChallengeMethod: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
