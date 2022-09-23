@@ -1,51 +1,49 @@
-const {v4: uuidv4} = require('uuid')
-
 module.exports = (sequelize, DataTypes) => {
-  const points = sequelize.define(
-    'sample',
+  const pkceRecord = sequelize.define(
+    'pkceRecord',
     {
-      sampleId: {
+      pkceRecordId: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
       },
-      placeId: {
+      code: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
       },
-      reviewId: {
-        type: DataTypes.UUID,
+      codeChallenge: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      userId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      hasBonus: {
-        type: DataTypes.TINYINT,
-        allowNull: false,
-      },
-      point: {
-        type: DataTypes.INTEGER,
+      codeChallengeMethod: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       createdAt: {
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
         allowNull: false,
       },
       updatedAt: {
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
         allowNull: false,
         onUpdate: DataTypes.NOW,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
       },
     },
     {
       charset: 'utf8mb4',
       collate: 'utf8mb4_general_ci',
-      freezeTableName: true,
+      paronId: true,
+      tableName: 'pkce_record',
     },
   )
 
-  return points
+  return pkceRecord
 }
