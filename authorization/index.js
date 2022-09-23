@@ -1,8 +1,12 @@
 const express = require('express')
 const router = express.Router()
+const {validateCodeRequest} = require('./validator')
+const authorizationController = require('./authorizationController')
 
-router.get('/', function (req, res, next) {
-  res.json()
-})
+router.post(
+  '/code',
+  validateCodeRequest,
+  authorizationController.getAuthorizeCode,
+)
 
 module.exports = router
