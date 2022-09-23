@@ -4,9 +4,9 @@ module.exports = {
       'clients',
       {
         clientId: {
-          type: Sequelize.DataTypes.UUID,
+          type: Sequelize.DataTypes.INTEGER,
           primaryKey: true,
-          defaultValue: Sequelize.DataTypes.UUIDV4,
+          autoIncrement: true,
           allowNull: false,
         },
         secret: {
@@ -18,7 +18,6 @@ module.exports = {
           values: ['authorization_code'],
           allowNull: false,
         },
-
         createdAt: {
           type: Sequelize.DataTypes.DATE,
           defaultValue: Sequelize.NOW,

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "node ./bin/server",
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha --recursive",
+    "dev": "nodemon 1s ./bin/server"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
