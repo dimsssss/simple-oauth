@@ -1,18 +1,20 @@
-const Joi = require('joi')
+const crypto = require('crypto')
+const NotValidCodeException = require('./exception/NotValidCodeException')
 
-const codeRequestSchema = Joi.object({
-  clientId: Joi.number().min(1).required(),
-  grantType: Joi.string().equal('authorization_code').required(),
-  redirectUrl: Joi.string().uri().required(),
-  codeChallenge: Joi.string().base64().required(),
-  codeChallengeMethod: Joi.string().equal('sha256').required(),
-})
+const getHash = (pkceRecord, authInformation) => {
+  const {codeChallengeMethod} = pkceRecord
+  const {codeVerifier} = authInformation
 
-const validateCodeRequest = async (req, res, next) => {
-  const value = await codeRequestSchema.validate(req.body)
-  return next(value, req, res, next)
+  return crypto.createHash(codeChallengeMethod).update(codeVerifier).digest('hex')
+}
+
+const validateCodeVerifier = (pkceRecord, authInformation) => {
+  const hashedCodeChallenge = getHash(pkceRecord, authInformation)
+  if (hashedCodeChallenge !== pkceRecord.codeChallenge) {
+    throw new NotValidCodeException(authInformation.codeVerifier)
+  }
 }
 
 module.exports = {
-  validateCodeRequest,
+  validateCodeVerifier,
 }
