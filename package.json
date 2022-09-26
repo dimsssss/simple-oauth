@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "node ./bin/server",
-    "test": "./node_modules/.bin/mocha --recursive",
+    "test": "./node_modules/.bin/mocha --recursive --exit",
     "dev": "nodemon 1s ./bin/server"
   },
   "dependencies": {
