@@ -19,10 +19,22 @@ const createCode = async (clientId, pkceCode) => {
       return await pkceRecord.create(pkceCode, {raw: true, transaction})
     })
     .catch(err => {
+      if (err instanceof NotFoundClientException) {
+        throw err
+      }
       throw new DatabaseException(err)
     })
 }
 
+const findByCodeAndClientId = async condition => {
+  const {pkceRecord} = db
+  return await pkceRecord.findOne({
+    where: {clientId: condition.clientId, code: condition.code},
+    raw: true,
+  })
+}
+
 module.exports = {
   createCode,
+  findByCodeAndClientId,
 }
