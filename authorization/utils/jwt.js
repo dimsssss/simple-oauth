@@ -10,18 +10,9 @@ class JWTException extends JsonWebTokenError {
   }
 }
 
-const createPayload = () => {
-  return {
-    iss: '발급 DNS',
-    aud: '발급자',
-  }
-}
-
-const create = pkceRecord => {
+const generateJWT = (payload, key, option) => {
   try {
-    const payload = createPayload()
-    const accessToken = jsonwebtoken.sign(payload, String(pkceRecord.clientId), {expiresIn: '1h'})
-    return {accessToken, tokenType: 'jwt-accessToken'}
+    return jsonwebtoken.sign(payload, key, option)
   } catch (err) {
     throw new JWTException(err)
   }
@@ -35,4 +26,4 @@ const isValid = (token, key) => {
   }
 }
 
-module.exports = {create, isValid}
+module.exports = {generateJWT, isValid}

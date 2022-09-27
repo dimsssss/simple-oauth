@@ -31,7 +31,7 @@
 ### 1. 데이터베이스 설치
 
 ```shell
-docker run --name=simple-oauth -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=simple-oauth -p 6603:3306 -d mysql:latest
+docker run --name=simple-oauth -e MARIADB_ROOT_PASSWORD=1234 -e MARIADB_DATABASE=simple-oauth -p 6603:3306 -d mariadb:latest
 ```
 
 ### 2. 웹 서버 설치
