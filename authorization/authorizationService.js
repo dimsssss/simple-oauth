@@ -18,7 +18,8 @@ const generateAccessToken = async authInformation => {
 
   validator.validateCodeVerifier(pkceRecord, authInformation)
   const tokenHistory = dto.createTokenHistory(pkceRecord.clientId)
-  return await authorizationRepository.createTokenHistory(tokenHistory)
+  const result = await authorizationRepository.createTokenHistory(tokenHistory)
+  return dto.convertToRefreshTokenResponse(result)
 }
 
 const refreshAccessToken = async tokenInformation => {
