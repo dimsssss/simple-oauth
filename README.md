@@ -57,6 +57,8 @@ DIALECT = 사용하는 db 종류
 TIMEZONE = 타임존 설정
 MIN = 커넥션 풀 최소 갯수
 MAX = 커넥션 풀 최대 갯수
+REFRESH_TOKEN_SECRET = secret key
+ACCESS_TOKEN_SECRET = secret key
 ```
 
 ### 4. 데이터베이스 마이그레이션
@@ -72,7 +74,7 @@ https://www.notion.so/dimsss/Simple-Oauth2-0-API-e18cbd39385e40f4aabd4109010186c
 
 ## 🌐 API Document
 
-coming soon
+https://app.swaggerhub.com/apis-docs/dimsssss/simple-oauth_api/1.0.0
 
 ## 🧾 실행
 
