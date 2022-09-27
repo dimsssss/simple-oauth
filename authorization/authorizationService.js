@@ -17,7 +17,8 @@ const generateAccessToken = async authInformation => {
   }
 
   validator.validateCodeVerifier(pkceRecord, authInformation)
-  return await jwt.create(pkceRecord)
+  const tokenHistory = await jwt.create(pkceRecord)
+  return await authorizationRepository.createTokenHistory(tokenHistory)
 }
 
 module.exports = {
