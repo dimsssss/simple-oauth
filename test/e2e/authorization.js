@@ -11,11 +11,12 @@ describe('Oauth Service e2e 테스트', () => {
     await clients.create({secret: 'secret', grantType: 'authorization_code'})
   })
   after(async () => {
-    const {clients, pkceRecord} = db
+    const {clients, pkceRecord, tokenHistory} = db
     await clients.destroy({where: {}, force: true, truncate: true})
     await pkceRecord.destroy({where: {}, force: true, truncate: true})
+    await tokenHistory.destroy({where: {}, force: true, truncate: true})
   })
-  // 코드 발행
+
   it('POST /authorization/code', async () => {
     const response = await request(app)
       .post('/authorization/code')
@@ -78,5 +79,30 @@ describe('Oauth Service e2e 테스트', () => {
 
     assert.equal(response.headers['content-type'], 'text/html; charset=utf-8')
     assert.equal(response.statusCode, 400)
+  })
+
+  it('POST /authorization/refresh refreshtoken이 유효하지 않을 때 400에러를 반환한다', async () => {
+    const response = await request(app)
+      .post('/authorization/token')
+      .send({
+        refreshToken: 1,
+      })
+      .set('Accept', 'application/json')
+
+    assert.equal(response.headers['content-type'], 'text/html; charset=utf-8')
+    assert.equal(response.statusCode, 400)
+  })
+
+  it('POST /authorization/refresh API 성공시 201을 반환 받고 새로운 토큰 정보를 받는다', async () => {
+    const history = await db.tokenHistory.findOne({where: {clientId: 1}, raw: true})
+    const response = await request(app)
+      .post('/authorization/refresh')
+      .send({
+        refreshToken: history.refreshToken,
+      })
+      .set('Accept', 'application/json')
+
+    assert.equal(response.headers['content-type'], 'application/json; charset=utf-8')
+    assert.equal(response.statusCode, 201)
   })
 })
