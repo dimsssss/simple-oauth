@@ -26,6 +26,17 @@ const createCode = async (clientId, pkceCode) => {
     })
 }
 
+const createTokenHistory = async history => {
+  try {
+    const {tokenHistory} = db
+    return await tokenHistory.create(history, {
+      raw: true,
+    })
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
 const findByCodeAndClientId = async condition => {
   const {pkceRecord} = db
   return await pkceRecord.findOne({
@@ -37,4 +48,5 @@ const findByCodeAndClientId = async condition => {
 module.exports = {
   createCode,
   findByCodeAndClientId,
+  createTokenHistory,
 }
