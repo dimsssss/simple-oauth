@@ -1,60 +1,70 @@
 openapi: 3.0.3
 info:
-  title: oauth API
+  title: simple oauth API
   description: |-
     설명
 servers:
   - url: http://localhost:3000
 tags:
-  - name: freeboard
-    description: 자유 게시판에 대한 게시글 CRUD API
+  - name: authorization
+    description: 클라이언트에 인증을 처리해주는 서비스
     externalDocs:
       description: Find out more
-      url: http://localhost:3000/freeboard
+      url: http://localhost:3000/authorization
 paths:
-  /freeboard:
-    patch:
+  /code:
+    post:
       tags:
-        - freeboard
-      summary: 자유 게시글 수정
-      description: 자유 게시글 내용을 수정합니다
-      operationId: updateFreeArticle
+        - authorization
+      summary: authorization_code 발급
+      description: access token을 얻기 위한 코드를 발급합니다
+      operationId: getAuthorizeCode
       requestBody:
-        description: 수정할 게시글 내용이 담겨있습니다
+        description: 클라이언트 정보가 있습니다
         content:
           application/json:
             schema:
               type: object
               properties:
-                id:
+                clientId:
                   type: integer
-                  example: 2
-                title:
+                  example: 1
+                grantType:
                   type: string
-                  example: "수정한 게시글 입니다"
-                content:
+                  example: 'authorization_code'
+                redirectUrl:
                   type: string
-                  example: "수정된 게시글 입니다 ㅎㅎㅎㅎ"
-
+                  example: 'localhost/receivecode'
+                codeChallenge:
+                  type: string
+                  example: 'asd2123dad3r3rkr'
+                codeChallengeMethod:
+                  type: string
+                  example: 'sha256'
         required: true
       responses:
-        "200":
-          description: OK
+        '201':
+          description: Created OK
           content:
             application/json:
               schema:
-                type: integer
-                example: 1
-
-        "500":
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 'eff414be-1567-44a6-bfe9-fad2742b58fd'
+        '400':
+          description: Bad Request
+        '500':
           description: Internal Server Error
 
+  /token:
     post:
       tags:
-        - freeboard
-      summary: 자유 게시글 등록
-      description: 새로운 게시글을 등록합니다
-      operationId: postArticleToFreeBoard
+        - authorization
+      summary: access token
+      description: 발급 받은 코드로 새로운 access token을 받습니다
+      operationId: getAccessToken
       requestBody:
         description:
         content:
@@ -62,112 +72,78 @@ paths:
             schema:
               type: object
               properties:
-                user_id:
+                clientId:
                   type: integer
-                  example: 2
-                title:
+                  example: 1
+                grantType:
                   type: string
-                  example: "첫번째 게시글 등록 입니다"
-                content:
+                  example: 'authorization_code'
+                redirectUrl:
                   type: string
-                  example: "게시글 등록 하였습니다"
+                  example: 'localhost:3000'
+                codeVerifier:
+                  type: string
+                  example: 'MTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTE'
+                code:
+                  type: string
+                  example: '04ade727-bc14-4c5c-92c0-2bb2151e7cb5'
         required: true
       responses:
-        "200":
-          description: Successful operation
+        '201':
+          description: Created OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  user_id:
+                  clientId:
                     type: integer
-                    example: 2
-                  title:
+                    example: 1
+                  accessToken:
                     type: string
-                    example: "첫번째 게시글 등록 입니다"
-                  content:
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0MjYxNjEwfQ.D6vGf_NEkdTavUkMRIp66GnZsQfQd7LUYZvL1W_lTf0'
+                  refreshToken:
                     type: string
-                    example: "게시글 등록 하였습니다"
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: "2022-09-05 05:54:53"
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    example: "2022-09-05 05:54:53"
-        "500":
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0ODYyODEwfQ.4mIChQtjB_JxZYp2Lix8LC7L1tf3xtO7gaNg6ht6Ppk'
+        '400':
+          description: Bad Request
+        '500':
           description: Internal Server Error
-
-    delete:
+  /refresh:
+    post:
       tags:
-        - freeboard
-      summary: 자유 게시글 삭제
-      description: 하나의 자유 게시글을 삭제합니다
-      operationId: deleteArticleForFreeBoard
+        - authorization
+      summary: refresh token
+      description: refresh token으로 access token를 재발급합니다
+      operationId: refreshAccessToken
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                user:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 2
-                    grade:
-                      type: integer
-                      example: 2
-                articleId:
-                  type: integer
-                  example: 294
+                refreshToken:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0ODYyODEwfQ.4mIChQtjB_JxZYp2Lix8LC7L1tf3xtO7gaNg6ht6Ppk'
+        required: true
       responses:
-        "200":
-          description: successful operation
-        "500":
-          description: Internal Server Error
-    get:
-      tags:
-        - freeboard
-      summary: 게시글 조회
-      description: 하나의 게시글을 조회합니다
-      operationId: getArticleForFreeBoard
-      parameters:
-        - name: articleId
-          in: query
-          description: 게시글 아이디
-          required: true
-          explode: true
-          schema:
-            type: integer
-            example: 193
-      responses:
-        "200":
-          description: successful operation
+        '200':
+          description: Created Ok
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  user_id:
+                  clientId:
                     type: integer
-                    example: 2
-                  title:
+                    example: 1
+                  accessToken:
                     type: string
-                    example: "첫번째 게시글 등록 입니다"
-                  content:
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0MjYxNjEwfQ.D6vGf_NEkdTavUkMRIp66GnZsQfQd7LUYZvL1W_lTf0'
+                  refreshToken:
                     type: string
-                    example: "게시글 등록 하였습니다"
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: "2022-09-05 05:54:53"
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    example: "2022-09-05 05:54:53"
-        "500":
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0ODYyODEwfQ.4mIChQtjB_JxZYp2Lix8LC7L1tf3xtO7gaNg6ht6Ppk'
+        '400':
+          description: Bad Request
+        '500':
           description: Internal Server Error
