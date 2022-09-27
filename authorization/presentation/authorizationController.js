@@ -18,8 +18,8 @@ const getAccessToken = async (validator, req, res, next) => {
     if (Object.hasOwn(validator, 'error')) {
       return res.status(StatusCodes.BAD_REQUEST).send(validator.error.message)
     }
-    const code = await authorizationService.generateAccessToken(validator.value)
-    return res.status(StatusCodes.CREATED).send({code})
+    const result = await authorizationService.generateAccessToken(validator.value)
+    return res.status(StatusCodes.CREATED).send(result)
   } catch (err) {
     return res.status(err.statusCode).send(err.message)
   }
@@ -30,8 +30,8 @@ const refreshAccessToken = async (validator, req, res, next) => {
     if (Object.hasOwn(validator, 'error')) {
       return res.status(StatusCodes.BAD_REQUEST).send(validator.error.message)
     }
-    const code = await authorizationService.refreshAccessToken(validator.value)
-    return res.status(StatusCodes.CREATED).send({code})
+    const result = await authorizationService.refreshAccessToken(validator.value)
+    return res.status(StatusCodes.CREATED).send(result)
   } catch (err) {
     return res.status(err.statusCode).send(err.message)
   }
