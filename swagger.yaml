@@ -96,9 +96,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  clientId:
-                    type: integer
-                    example: 1
                   accessToken:
                     type: string
                     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0MjYxNjEwfQ.D6vGf_NEkdTavUkMRIp66GnZsQfQd7LUYZvL1W_lTf0'
@@ -134,9 +131,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  clientId:
-                    type: integer
-                    example: 1
                   accessToken:
                     type: string
                     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiLrsJzquIkgRE5TIiwiYXVkIjoi67Cc6riJ7J6QIiwiY2xpZW50SWQiOjEsImlhdCI6MTY2NDI1ODAxMCwiZXhwIjoxNjY0MjYxNjEwfQ.D6vGf_NEkdTavUkMRIp66GnZsQfQd7LUYZvL1W_lTf0'
