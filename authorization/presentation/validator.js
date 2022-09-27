@@ -26,7 +26,17 @@ const validateAccessTokenRequest = async (req, res, next) => {
   return next(value, req, res, next)
 }
 
+const refreshTokenRequestSchema = Joi.object({
+  refreshToken: Joi.string().required(),
+})
+
+const validateRefreshTokenRequest = async (req, res, next) => {
+  const value = await refreshTokenRequestSchema.validate(req.body)
+  return next(value, req, res, next)
+}
+
 module.exports = {
   validateCodeRequest,
   validateAccessTokenRequest,
+  validateRefreshTokenRequest,
 }
