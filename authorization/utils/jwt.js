@@ -1,3 +1,6 @@
+/* global process */
+require('dotenv').config()
+
 const {StatusCodes} = require('http-status-codes')
 const jsonwebtoken = require('jsonwebtoken')
 const {JsonWebTokenError} = jsonwebtoken
@@ -21,7 +24,11 @@ const create = pkceRecord => {
   try {
     const payload = createPayload()
     const accessToken = jsonwebtoken.sign(payload, String(pkceRecord.clientId), {expiresIn: '1h'})
-    return {accessToken, tokenType: 'jwt-accessToken'}
+    const refreshToken = jsonwebtoken.sign(payload, String(process.env.REFRESH_TOKEN_SECRET), {
+      expiresIn: '7d',
+    })
+
+    return {accessToken, refreshToken, clientId: pkceRecord.clientId}
   } catch (err) {
     throw new JWTException(err)
   }
