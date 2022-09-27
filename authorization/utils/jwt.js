@@ -1,6 +1,3 @@
-/* global process */
-require('dotenv').config()
-
 const {StatusCodes} = require('http-status-codes')
 const jsonwebtoken = require('jsonwebtoken')
 const {JsonWebTokenError} = jsonwebtoken
@@ -13,22 +10,9 @@ class JWTException extends JsonWebTokenError {
   }
 }
 
-const createPayload = () => {
-  return {
-    iss: '발급 DNS',
-    aud: '발급자',
-  }
-}
-
-const create = pkceRecord => {
+const generateJWT = (payload, key, option) => {
   try {
-    const payload = createPayload()
-    const accessToken = jsonwebtoken.sign(payload, String(pkceRecord.clientId), {expiresIn: '1h'})
-    const refreshToken = jsonwebtoken.sign(payload, String(process.env.REFRESH_TOKEN_SECRET), {
-      expiresIn: '7d',
-    })
-
-    return {accessToken, refreshToken, clientId: pkceRecord.clientId}
+    return jsonwebtoken.sign(payload, key, option)
   } catch (err) {
     throw new JWTException(err)
   }
@@ -42,4 +26,4 @@ const isValid = (token, key) => {
   }
 }
 
-module.exports = {create, isValid}
+module.exports = {generateJWT, isValid}
