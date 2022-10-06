@@ -26,51 +26,9 @@
     </a>
 </p>
 
-## 🏗 설치
-
-### 1. 데이터베이스 설치
-
-```shell
-docker run --name=simple-oauth -e MARIADB_ROOT_PASSWORD=1234 -e MARIADB_DATABASE=simple-oauth -p 6603:3306 -d mariadb:latest
-```
-
-### 2. 웹 서버 설치
-
-```shell
-git clone https://github.com/dimsssss/simple-oauth
-
-cd simple-oauth
-
-npm install
-```
-
-### 3. 환경 변수 설정
-
-```
-## .env 안에 들어갈 내용
-DATABASE_USER = db계정
-PASSWORD = db 패스워드
-DATABASE = simple-oauth(임시)
-HOST = db 호스트
-DATABASE_PORT = db 포트
-DIALECT = 사용하는 db 종류
-TIMEZONE = 타임존 설정
-MIN = 커넥션 풀 최소 갯수
-MAX = 커넥션 풀 최대 갯수
-REFRESH_TOKEN_SECRET = secret key
-ACCESS_TOKEN_SECRET = secret key
-```
-
-### 4. 데이터베이스 마이그레이션
-
-```shell-
-# migration
-npx sequelize-cli db:migrate
-```
-
 ## 🔍 프로젝트 완성 과정
 
-https://www.notion.so/dimsss/Simple-Oauth2-0-API-e18cbd39385e40f4aabd4109010186c8
+https://dimsss.notion.site/Simple-Oauth2-0-API-e18cbd39385e40f4aabd4109010186c8
 
 ## 🌐 API Document
 
