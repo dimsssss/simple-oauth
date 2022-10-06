@@ -34,22 +34,24 @@
 
 Oauth가 어떤 것인지 알아야되겠다고 생각이 들어서 RFC문서를 확인해보았다.
 
-![[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)](./image/2022-09-22-11-24-25.png)
-
-[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)
-
-![[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)](./image/2022-09-22-11-24-49.png)
-
-[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)
-
-![oauth의 보안 문제점](./image/2022-09-23-11-46-16.png)
-
-oauth의 보안 문제점
-
-![oauth 보안 문제 해결책](./image/2022-09-23-11-46-35.png)
-
-oauth 보안 문제 해결책
-
+<table>
+    <tr>
+        <td>
+            <img alt="https://www.rfc-editor.org/rfc/rfc6749" src="./image/2022-09-22-11-24-49.png" width="500px">
+        </td>
+        <td>
+            <img alt="https://www.rfc-editor.org/rfc/rfc6749" src="./image/2022-09-22-11-24-25.png" width="500px">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img alt="oauth의 보안 문제점" src="./image/2022-09-23-11-46-16.png" width="500px" height="500px">
+        </td>
+        <td>
+            <img alt="oauth 보안 문제 해결책" src="./image/2022-09-23-11-46-35.png" width="500px" height="500px">
+        </td>
+    </tr>
+</table>
 다행히 그림으로 잘 정리되어 있어서 어떤식으로 동작하는지 이해가 되었다. grantType이 Authorization_code(PKCE)인 경우 크게 2가지로 나눌 수 있다. 첫번째는 client에 code를 부여하는 것과 두 번째로 발급한 code에 access token을 발급해주는 것이다.
 
 code를 발급해주는 과정에서 먼저 Authorization 서버에 client가 등록되어 있어야 한다. 해당 요청이 등록된 client인지 확인하고 맞다면 code를 발급해준다. PKCE는 여기서 더 나아가서 토큰 발급을 요청할 때 그 요청이 유효한지 인증하기 위해 code_verifier를 request에 넣는다. 서버측은 이 값을 가지고 token을 발급하는 API에서 적절한 요청인지 확인하는 과정을 거치고 유효하면 토큰을 발급한다
