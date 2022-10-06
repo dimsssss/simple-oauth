@@ -34,21 +34,10 @@
 
 Oauth가 어떤 것인지 알아야되겠다고 생각이 들어서 RFC문서를 확인해보았다.
 
-![[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)](./image/2022-09-22-11-24-25.png)
-
-[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)
-
-![[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)](./image/2022-09-22-11-24-49.png)
-
-[https://www.rfc-editor.org/rfc/rfc6749](https://www.rfc-editor.org/rfc/rfc6749)
-
-![oauth의 보안 문제점](./image/2022-09-23-11-46-16.png)
-
-oauth의 보안 문제점
-
-![oauth 보안 문제 해결책](./image/2022-09-23-11-46-35.png)
-
-oauth 보안 문제 해결책
+<img alt="https://www.rfc-editor.org/rfc/rfc6749" src="./image/2022-09-22-11-24-49.png" width="500px">
+<img alt="https://www.rfc-editor.org/rfc/rfc6749" src="./image/2022-09-22-11-24-25.png" width="500px">
+<img alt="oauth의 보안 문제점" src="./image/2022-09-23-11-46-16.png" width="500px" height="500px">
+<img alt="oauth 보안 문제 해결책" src="./image/2022-09-23-11-46-35.png" width="500px" height="500px">
 
 다행히 그림으로 잘 정리되어 있어서 어떤식으로 동작하는지 이해가 되었다. grantType이 Authorization_code(PKCE)인 경우 크게 2가지로 나눌 수 있다. 첫번째는 client에 code를 부여하는 것과 두 번째로 발급한 code에 access token을 발급해주는 것이다.
 
